@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gully Cricket: Six Hitter – One-tap cricket batting game</title>
+<meta name="description" content="Gully Cricket is a fast, fun, one-tap cricket batting game. Time your shot, smash sixes under the floodlights, chase targets across 40 levels and collect 12 legendary bats. Free on Android.">
+<meta name="theme-color" content="#0E2A47">
+<link rel="icon" type="image/png" href="web/icon_192.png">
+<link rel="apple-touch-icon" href="web/icon_192.png">
+<link rel="canonical" href="https://hassan-t8.github.io/gully-cricket/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gully Cricket: Six Hitter">
+<meta property="og:description" content="Tap, time your shot &amp; smash SIXES! 40 cricket chases + endless Super Sixes.">
+<meta property="og:url" content="https://hassan-t8.github.io/gully-cricket/">
+<meta property="og:image" content="https://hassan-t8.github.io/gully-cricket/web/og_image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --night: #0E2A47;
+    --night-2: #16395E;
+    --grass: #1B8A3A;
+    --grass-2: #24A048;
+    --ball: #C62828;
+    --gold: #FFC93C;
+    --cream: #FFF7E6;
+    --ink: #10263F;
+    --muted: #55677C;
+    --card: #FFFFFF;
+    --line: #E9DCC0;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Nunito", -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--grass); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .display { font-family: "Lilita One", "Nunito", sans-serif; font-weight: 400; letter-spacing: .5px; }
+
+  /* ---------- nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(14, 42, 71, .93);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+  .brand img { width: 36px; height: 36px; border-radius: 9px; }
+  .brand span { font-family: "Lilita One", sans-serif; font-size: 22px; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a { color: rgba(255,255,255,.82); text-decoration: none; font-weight: 700; font-size: 15px; }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative; overflow: hidden; color: #fff;
+    background:
+      radial-gradient(circle at 6% 0%, rgba(255,255,255,.25) 0, transparent 20%),
+      radial-gradient(circle at 94% 0%, rgba(255,255,255,.25) 0, transparent 20%),
+      linear-gradient(180deg, #071A30 0%, var(--night) 45%, var(--night-2) 70%, var(--grass) 100%);
+    padding: 72px 0 0;
+  }
+  .hero::before { /* crowd lights */
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35;
+    background-image:
+      radial-gradient(circle, #FFC93C 1.2px, transparent 1.6px),
+      radial-gradient(circle, #4FC3F7 1.2px, transparent 1.6px),
+      radial-gradient(circle, #FF7AA8 1.2px, transparent 1.6px);
+    background-size: 26px 22px, 34px 26px, 42px 30px;
+    background-position: 0 0, 11px 7px, 19px 13px;
+    -webkit-mask-image: linear-gradient(180deg, transparent 10%, #000 30%, #000 55%, transparent 75%);
+            mask-image: linear-gradient(180deg, transparent 10%, #000 30%, #000 55%, transparent 75%);
+  }
+  .hero::after { /* grass stripes */
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 90px;
+    background: repeating-linear-gradient(90deg, var(--grass) 0 70px, var(--grass-2) 70px 140px);
+  }
+  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: end; }
+  .hero-copy { padding-bottom: 130px; }
+  .eyebrow {
+    display: inline-block; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+    color: #fff; font-weight: 800; font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .hero h1 { margin: 0; line-height: .95; }
+  .hero h1 .t1 { display: block; font-size: clamp(56px, 9vw, 104px); color: var(--gold); text-shadow: 0 5px 0 #061527; }
+  .hero h1 .t2 { display: block; font-size: clamp(44px, 7vw, 80px); color: #fff; text-shadow: 0 5px 0 #061527; }
+  .six {
+    display: inline-block; margin: 22px 0 0; background: var(--ball); color: #fff;
+    font-family: "Lilita One", sans-serif; font-size: 22px; padding: 6px 22px; border-radius: 12px;
+    border: 3px solid #061527; transform: rotate(-2deg);
+  }
+  .hero p.lead { font-size: 19px; max-width: 520px; color: rgba(255,255,255,.92); margin: 24px 0 28px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .play-btn {
+    display: inline-flex; align-items: center; gap: 12px; background: #000; color: #fff; text-decoration: none;
+    padding: 10px 20px 10px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,.35);
+    transition: transform .15s ease;
+  }
+  .play-btn:hover { transform: translateY(-2px); }
+  .play-btn svg { width: 28px; height: 28px; flex: none; }
+  .play-btn small { display: block; font-size: 11px; letter-spacing: .6px; text-transform: uppercase; opacity: .85; line-height: 1.2; }
+  .play-btn strong { display: block; font-size: 20px; line-height: 1.2; font-weight: 700; }
+  .ghost-btn {
+    color: #fff; text-decoration: none; font-weight: 800; padding: 14px 20px; border-radius: 14px;
+    border: 2px solid rgba(255,255,255,.35);
+  }
+  .ghost-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .chips span { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.92); background: rgba(6,21,39,.45); padding: 5px 12px; border-radius: 999px; }
+
+  .phone {
+    position: relative; z-index: 2; justify-self: center; width: min(320px, 80vw);
+    border-radius: 34px; padding: 10px; background: #fff;
+    box-shadow: 0 30px 60px rgba(3, 12, 24, .5);
+    margin-bottom: -40px;
+  }
+  .phone img { border-radius: 26px; }
+
+  /* ---------- stats ---------- */
+  .stats { background: var(--night); color: #fff; padding: 64px 0 34px; }
+  .stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
+  .stat b { display: block; font-family: "Lilita One", sans-serif; font-size: 40px; color: var(--gold); line-height: 1.1; font-weight: 400; }
+  .stat span { color: rgba(255,255,255,.75); font-weight: 700; font-size: 15px; }
+
+  /* ---------- sections ---------- */
+  section { padding: 84px 0; }
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 44px; }
+  .section-head h2 { font-family: "Lilita One", sans-serif; font-weight: 400; font-size: clamp(34px, 5vw, 46px); margin: 0 0 10px; color: var(--night); line-height: 1.1; }
+  .section-head p { margin: 0; color: var(--muted); font-size: 18px; }
+
+  /* how to play */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 22px; }
+  .step .num {
+    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+    background: var(--grass); color: #fff; font-family: "Lilita One", sans-serif; font-size: 22px; margin-bottom: 14px;
+  }
+  .step:nth-child(2) .num { background: #F7931E; }
+  .step:nth-child(3) .num { background: var(--ball); }
+  .step:nth-child(4) .num { background: var(--night-2); }
+  .step h3 { margin: 0 0 6px; font-size: 19px; font-weight: 800; }
+  .step p { margin: 0; color: var(--muted); }
+
+  /* timing guide */
+  .meter { max-width: 780px; margin: 40px auto 0; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; }
+  .meter h3 { margin: 0 0 14px; font-size: 17px; font-weight: 800; text-align: center; }
+  .bar { display: grid; grid-template-columns: 1fr 1.2fr 1.3fr 1fr 1.3fr 1.2fr 1fr; border-radius: 12px; overflow: hidden; font-weight: 800; font-size: 13px; text-align: center; color: #fff; }
+  .bar span { padding: 10px 2px; }
+  .bar .x { background: #8C9AAB; } .bar .o { background: #E07B12; } .bar .g { background: var(--grass); } .bar .p { background: var(--gold); color: var(--night); }
+  .meter p { margin: 12px 0 0; color: var(--muted); font-size: 15px; text-align: center; }
+
+  /* features */
+  .features-bg { background: #F1E6CC; }
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feature { background: var(--card); border-radius: var(--radius); padding: 26px; border: 1px solid var(--line); }
+  .feature .ico { font-size: 30px; line-height: 1; margin-bottom: 12px; }
+  .feature h3 { margin: 0 0 6px; font-size: 19px; font-weight: 800; }
+  .feature p { margin: 0; color: var(--muted); }
+
+  /* screenshots */
+  .shots-bg { background: linear-gradient(180deg, var(--night) 0%, #0B3B2A 100%); color: #fff; }
+  .shots-bg .section-head h2 { color: #fff; }
+  .shots-bg .section-head p { color: rgba(255,255,255,.8); }
+  .shots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .shots figure { margin: 0; }
+  .shots img { border-radius: 18px; box-shadow: 0 14px 30px rgba(2, 10, 20, .4); }
+  .shots figcaption { text-align: center; margin-top: 10px; font-weight: 800; color: rgba(255,255,255,.85); }
+
+  /* faq */
+  .faq { max-width: 780px; margin: 0 auto; }
+  .faq details { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 0 22px; margin-bottom: 12px; }
+  .faq summary { cursor: pointer; list-style: none; font-weight: 800; font-size: 17px; padding: 18px 28px 18px 0; position: relative; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 0; top: 13px; font-size: 26px; color: var(--grass); font-weight: 700; }
+  .faq details[open] summary::after { content: "–"; }
+  .faq details p, .faq details ol { margin: 0 0 18px; color: var(--muted); }
+  .faq details li { margin-bottom: 4px; }
+
+  /* more games + support */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .panel { border-radius: var(--radius); padding: 30px; }
+  .panel h3 { font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 28px; margin: 0 0 10px; line-height: 1.15; }
+  .panel p { margin: 0 0 12px; }
+  .panel.more { background: #FFF; border: 2px dashed #E07B12; }
+  .game-card { display: flex; gap: 16px; align-items: center; text-decoration: none; color: var(--ink); background: var(--cream); border-radius: 16px; padding: 14px; margin-top: 6px; }
+  .game-card:hover { background: #F7EBD0; }
+  .game-card img { width: 64px; height: 64px; border-radius: 14px; flex: none; }
+  .game-card b { display: block; font-size: 18px; }
+  .game-card span { color: var(--muted); font-size: 15px; }
+  .panel.support { background: var(--night); color: #fff; }
+  .panel.support h3 { color: var(--gold); }
+  .panel.support a.mail {
+    display: inline-block; margin-top: 6px; background: var(--grass); color: #fff; text-decoration: none;
+    font-weight: 800; padding: 12px 20px; border-radius: 12px; word-break: break-all;
+  }
+  .panel.support p { color: rgba(255,255,255,.85); }
+
+  /* footer */
+  footer { background: #071A30; color: rgba(255,255,255,.7); padding: 40px 0; font-size: 15px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px; }
+  footer nav { display: flex; flex-wrap: wrap; gap: 20px; }
+  footer a { color: rgba(255,255,255,.85); text-decoration: none; font-weight: 700; }
+  footer a:hover { color: var(--gold); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 920px) {
+    .hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .hero-copy { padding-bottom: 20px; }
+    .hero p.lead { margin-left: auto; margin-right: auto; }
+    .cta-row, .chips { justify-content: center; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .features { grid-template-columns: repeat(2, 1fr); }
+    .duo { grid-template-columns: 1fr; }
+    .shots { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .wrap { padding: 0 16px; }
+    .hero { padding-top: 48px; }
+    .stats .wrap { grid-template-columns: repeat(2, 1fr); row-gap: 26px; }
+    .steps, .features { grid-template-columns: 1fr; }
+    section { padding: 64px 0; }
+    .bar { font-size: 10px; }
+    footer .wrap { flex-direction: column; text-align: center; }
+    footer nav { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="web/icon_192.png" alt="" width="36" height="36"><span>Gully Cricket</span></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#how">How to play</a>
+      <a href="#features">Features</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#faq">FAQ</a>
+      <a href="#support">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">🏏 Free cricket batting game</span>
+        <h1 class="display">
+          <span class="t1">GULLY</span>
+          <span class="t2">CRICKET</span>
+        </h1>
+        <span class="six">SIX!!</span>
+        <p class="lead">Step up to the crease under the floodlights. The bowler runs in, the ball flies down the pitch – <strong>tap at the perfect moment</strong> and smash it into the crowd.</p>
+        <div class="cta-row">
+          <a class="play-btn" href="https://play.google.com/store/apps/details?id=com.hassantalha.gully_cricket" aria-label="Gully Cricket on Google Play (coming soon)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 1.8 13.3 12l-9.7 10.2c-.4-.2-.6-.7-.6-1.2V3c0-.5.2-1 .6-1.2Z"/><path fill="#FBBC04" d="m16.6 15.3-3.3-3.3 3.3-3.3 3.8 2.2c1.1.6 1.1 1.7 0 2.3l-3.8 2.1Z"/><path fill="#EA4335" d="M16.6 15.3 13.3 12l-9.7 10.2c.4.3 1 .3 1.6-.1l11.4-6.8Z"/><path fill="#4285F4" d="M16.6 8.7 5.2 1.9c-.6-.4-1.2-.4-1.6-.1L13.3 12l3.3-3.3Z"/></svg>
+            <span><small>Coming soon on</small><strong>Google Play</strong></span>
+          </a>
+          <a class="ghost-btn" href="#how">How to play</a>
+        </div>
+        <div class="chips">
+          <span>👆 One-tap batting</span>
+          <span>📴 Plays offline</span>
+          <span>⚡ 1-minute matches</span>
+        </div>
+      </div>
+      <div class="phone">
+        <img src="web/shot_1.jpg" alt="Gully Cricket gameplay: the batsman hits a six under the stadium floodlights" width="585" height="1266">
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="wrap">
+      <div class="stat"><b>40</b><span>Career levels</span></div>
+      <div class="stat"><b>12</b><span>Bats to collect</span></div>
+      <div class="stat"><b>7</b><span>Types of delivery</span></div>
+      <div class="stat"><b>0</b><span>Internet needed</span></div>
+    </div>
+  </div>
+
+  <!-- HOW TO PLAY -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>One tap. Perfect timing.</h2>
+        <p>Easy enough for anyone to pick up. Hitting six after six takes real skill.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><h3>Watch the bowler</h3><p>He runs in and lets it fly. Fast, slow, yorker, bouncer or spin – read the ball.</p></div>
+        <div class="step"><div class="num">2</div><h3>Tap to swing</h3><p>Tap anywhere on the screen to swing your bat. That's the only control.</p></div>
+        <div class="step"><div class="num">3</div><h3>Time it right</h3><p>Swing when the shrinking ring meets the gold ring. Perfect = SIX, good = FOUR.</p></div>
+        <div class="step"><div class="num">4</div><h3>Win the chase</h3><p>Score the target before the balls or wickets run out and earn up to 3 stars.</p></div>
+      </div>
+      <div class="meter" aria-label="Timing guide">
+        <h3>The timing guide</h3>
+        <div class="bar">
+          <span class="x">Edge</span><span class="o">1–2</span><span class="g">FOUR</span><span class="p">SIX!</span><span class="g">FOUR</span><span class="o">1–2</span><span class="x">Edge</span>
+        </div>
+        <p>Too early or too late and you might be caught. Miss a ball on the stumps and you're bowled!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="features-bg">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Big hits, short matches</h2>
+        <p>Everything you love about street cricket, in your pocket.</p>
+      </div>
+      <div class="features">
+        <div class="feature"><div class="ico">🎯</div><h3>40 career chases</h3><p>From easy knocks to "need 6 off the last ball". Every 5th level is a big chase.</p></div>
+        <div class="feature"><div class="ico">🔥</div><h3>Super Sixes</h3><p>Endless mode – the bowling gets faster as you go. How many runs can you score?</p></div>
+        <div class="feature"><div class="ico">⚡</div><h3>7 deliveries</h3><p>Fast balls, slower balls, yorkers, bouncers, off-spin and leg-spin.</p></div>
+        <div class="feature"><div class="ico">🏏</div><h3>12 bats to collect</h3><p>From the Gully Plank to the Legend Blade. Each bat has its own timing and power.</p></div>
+        <div class="feature"><div class="ico">🏟️</div><h3>Night stadium</h3><p>Floodlights, a roaring crowd and fireworks for every six you hit.</p></div>
+        <div class="feature"><div class="ico">🎁</div><h3>Daily rewards</h3><p>Come back every day for bigger coin rewards and free bonuses.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREENSHOTS -->
+  <section id="screenshots" class="shots-bg">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Take a look</h2>
+        <p>From the bowler's run-up to the ball landing in the crowd.</p>
+      </div>
+      <div class="shots">
+        <figure><img src="web/shot_4.jpg" alt="The bowler runs in" loading="lazy" width="585" height="1266"><figcaption>The run-up</figcaption></figure>
+        <figure><img src="web/shot_2.jpg" alt="The ball flies down the pitch" loading="lazy" width="585" height="1266"><figcaption>Read the ball</figcaption></figure>
+        <figure><img src="web/shot_3.jpg" alt="The batsman connects with the ball" loading="lazy" width="585" height="1266"><figcaption>Swing!</figcaption></figure>
+        <figure><img src="web/shot_1.jpg" alt="SIX with perfect timing" loading="lazy" width="585" height="1266"><figcaption>SIX!!</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Questions &amp; answers</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Is Gully Cricket free?</summary>
+          <p>Yes. The game is free to download and play. It shows ads and offers optional in-app purchases such as coin packs and Remove Ads. You never need to pay to enjoy the game.</p>
+        </details>
+        <details>
+          <summary>Does it work without internet?</summary>
+          <p>Yes. You can play fully offline. An internet connection is only used for ads and purchases.</p>
+        </details>
+        <details>
+          <summary>How do I remove ads?</summary>
+          <p>Open the Shop in the game and buy <strong>Remove Ads</strong> (or the Starter Pack, which includes it). Banners and ads between matches stop; optional reward videos stay available if you want bonus coins.</p>
+        </details>
+        <details>
+          <summary>I changed phones. How do I get my purchases back?</summary>
+          <p>Sign in to the same Google account, open the Shop or Settings and tap <strong>Restore purchases</strong>. Remove Ads and the Starter Pack come back automatically. Coins and level progress are saved on your device only, so they don't move to a new phone.</p>
+        </details>
+        <details id="delete-data">
+          <summary>How do I delete my data?</summary>
+          <p>Gully Cricket has no accounts and no servers – your progress is stored only on your phone. To delete data:</p>
+          <ol>
+            <li><strong>Game progress:</strong> in the game, open Settings → <strong>Reset progress</strong>, or uninstall the game.</li>
+            <li><strong>Advertising ID:</strong> on Android, open Settings → Google → Ads and tap <strong>Delete advertising ID</strong>.</li>
+            <li><strong>Anything else:</strong> e-mail <a href="mailto:hassantalha807@gmail.com?subject=Gully%20Cricket%20data%20deletion">hassantalha807@gmail.com</a> and we will help within 30 days.</li>
+          </ol>
+          <p>See the <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+        </details>
+        <details>
+          <summary>Which devices are supported?</summary>
+          <p>Gully Cricket runs on Android phones and tablets.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- MORE GAMES + SUPPORT -->
+  <section id="support" style="padding-top:0">
+    <div class="wrap duo">
+      <div class="panel more">
+        <h3>🎮 More games</h3>
+        <p>Like quick one-finger games? Try our kite fighting game too.</p>
+        <a class="game-card" href="../">
+          <img src="../web/icon_192.png" alt="" width="64" height="64">
+          <div><b>Patang Clash: Kite Fight</b><span>Fly, fight &amp; cut rival kites. Bo Kata!</span></div>
+        </a>
+      </div>
+      <div class="panel support">
+        <h3>Need help?</h3>
+        <p>Found a bug, lost a purchase or have an idea for a new bat? We read every message.</p>
+        <a class="mail" href="mailto:hassantalha807@gmail.com?subject=Gully%20Cricket%20support">hassantalha807@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Hassan Talha · Gully Cricket</div>
+    <nav aria-label="Legal">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="#delete-data">Delete my data</a>
+      <a href="mailto:hassantalha807@gmail.com">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Open the FAQ item when someone lands on /gully-cricket/#delete-data
+  if (location.hash === '#delete-data') {
+    var d = document.getElementById('delete-data'); if (d) d.open = true;
+  }
+</script>
+</body>
+</html>
