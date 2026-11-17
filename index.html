@@ -25,15 +25,23 @@
   :root {
     --night: #2B1B5A;
     --night-2: #3A2470;
+    --deep: #1E1342;
     --plum: #6B2A7A;
     --pink: #FF3D7F;
-    --pink-soft: #FF7AA8;
+    --orange: #F7931E;
+    --teal: #1FA79A;
+    --sky: #4FC3F7;
     --gold: #FFC93C;
     --cream: #FFF4E0;
+    --sand: #FFEBCB;
     --ink: #2B1B5A;
     --muted: #6A5C8E;
     --card: #FFFFFF;
     --line: #EADBC0;
+    --common: #8C9BB5;
+    --rare: #3D9BE9;
+    --epic: #A55BE0;
+    --legend: #F5A623;
     --radius: 20px;
   }
   * { box-sizing: border-box; }
@@ -45,6 +53,7 @@
     background: var(--cream);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
   img { max-width: 100%; display: block; }
   a { color: var(--pink); }
@@ -53,8 +62,8 @@
 
   /* ---------- nav ---------- */
   .nav {
-    position: sticky; top: 0; z-index: 20;
-    background: rgba(43, 27, 90, .92);
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(30, 19, 66, .9);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255,255,255,.08);
   }
@@ -62,120 +71,239 @@
   .brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
   .brand img { width: 36px; height: 36px; border-radius: 9px; }
   .brand span { font-family: "Lilita One", sans-serif; font-size: 22px; }
-  .nav-links { display: flex; gap: 24px; }
+  .nav-links { display: flex; gap: 22px; align-items: center; }
   .nav-links a { color: rgba(255,255,255,.82); text-decoration: none; font-weight: 700; font-size: 15px; }
   .nav-links a:hover { color: var(--gold); }
+  .nav-cta { background: var(--pink); color: #fff !important; padding: 8px 16px; border-radius: 999px; }
+  .nav-cta:hover { background: #ff5a93; }
 
   /* ---------- hero ---------- */
   .hero {
     position: relative; overflow: hidden; color: #fff;
-    background: linear-gradient(180deg, var(--night) 0%, var(--plum) 55%, #D93A7E 100%);
-    padding: 72px 0 0;
-  }
-  .hero::after { /* rooftop skyline */
-    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 70px;
     background:
-      linear-gradient(var(--night), var(--night)) 0 30px / 9% 40px no-repeat,
-      linear-gradient(var(--night), var(--night)) 12% 10px / 10% 60px no-repeat,
-      linear-gradient(var(--night), var(--night)) 25% 38px / 12% 32px no-repeat,
-      linear-gradient(var(--night), var(--night)) 40% 22px / 8% 48px no-repeat,
-      linear-gradient(var(--night), var(--night)) 52% 44px / 14% 26px no-repeat,
-      linear-gradient(var(--night), var(--night)) 68% 16px / 7% 54px no-repeat,
-      linear-gradient(var(--night), var(--night)) 78% 34px / 11% 36px no-repeat,
-      linear-gradient(var(--night), var(--night)) 92% 20px / 10% 50px no-repeat,
-      linear-gradient(var(--night), var(--night)) 100% 40px / 6% 30px no-repeat;
+      radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.9) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 28% 8%, rgba(255,255,255,.8) 50%, transparent 51%),
+      radial-gradient(1px 1px at 44% 22%, rgba(255,255,255,.7) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 63% 12%, rgba(255,255,255,.8) 50%, transparent 51%),
+      radial-gradient(1px 1px at 78% 26%, rgba(255,255,255,.7) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 90% 9%, rgba(255,255,255,.9) 50%, transparent 51%),
+      radial-gradient(1px 1px at 6% 40%, rgba(255,255,255,.6) 50%, transparent 51%),
+      linear-gradient(180deg, #1E1342 0%, #3A2470 32%, #7A2C80 64%, #E0427F 100%);
+    padding: 64px 0 0;
   }
-  .sun {
-    position: absolute; width: 380px; height: 380px; right: -60px; bottom: 40px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,190,120,.55) 0%, rgba(255,150,120,.18) 45%, transparent 70%);
+  .hero .sun {
+    position: absolute; width: 520px; height: 520px; right: -120px; bottom: -60px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,196,120,.6) 0%, rgba(255,140,120,.22) 40%, transparent 70%);
     pointer-events: none;
   }
-  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: end; }
-  .hero-copy { padding-bottom: 110px; }
+  .skyline { position: absolute; left: 0; right: 0; bottom: 0; height: 120px; z-index: 1; pointer-events: none; }
+  .skyline svg { width: 100%; height: 100%; display: block; }
+  .hero-grid {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1.05fr .95fr; gap: 32px; align-items: center;
+    min-height: 600px; padding-bottom: 90px;
+  }
   .eyebrow {
-    display: inline-block; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+    display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
     color: #fff; font-weight: 800; font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase;
     padding: 6px 14px; border-radius: 999px; margin-bottom: 18px;
   }
-  .hero h1 { margin: 0; line-height: .95; }
-  .hero h1 .t1 { display: block; font-size: clamp(56px, 9vw, 104px); color: var(--gold); text-shadow: 0 5px 0 var(--night); }
-  .hero h1 .t2 { display: block; font-size: clamp(44px, 7vw, 80px); color: #fff; text-shadow: 0 5px 0 var(--night); }
+  .hero h1 { margin: 0; line-height: .92; }
+  .hero h1 .t1 { display: block; font-size: clamp(60px, 9vw, 112px); color: var(--gold); text-shadow: 0 6px 0 var(--deep); }
+  .hero h1 .t2 { display: block; font-size: clamp(46px, 7vw, 84px); color: #fff; text-shadow: 0 6px 0 var(--deep); }
   .bokata {
-    display: inline-block; margin: 22px 0 0; background: var(--pink); color: #fff;
+    display: inline-block; margin: 20px 0 0; background: var(--pink); color: #fff;
     font-family: "Lilita One", sans-serif; font-size: 22px; padding: 6px 22px; border-radius: 12px;
-    border: 3px solid var(--night); transform: rotate(-2deg);
+    border: 3px solid var(--deep); transform: rotate(-3deg); box-shadow: 0 4px 0 var(--deep);
   }
-  .hero p.lead { font-size: 19px; max-width: 520px; color: rgba(255,255,255,.92); margin: 24px 0 28px; }
-  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
-  .play-btn {
-    display: inline-flex; align-items: center; gap: 12px; background: #000; color: #fff; text-decoration: none;
-    padding: 10px 20px 10px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,.35);
-    transition: transform .15s ease;
+  .hero p.lead { font-size: 19px; max-width: 520px; color: rgba(255,255,255,.92); margin: 22px 0 26px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+  .badge-link { position: relative; display: inline-block; transition: transform .15s ease; }
+  .badge-link:hover { transform: translateY(-2px); }
+  .badge-link img { height: 84px; width: auto; margin: -10px -8px; } /* badge PNG has built-in clear space */
+  .soon {
+    position: absolute; top: -12px; right: -14px; background: var(--gold); color: var(--deep);
+    font-weight: 800; font-size: 11px; letter-spacing: .6px; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; border: 2px solid var(--deep); transform: rotate(6deg);
   }
-  .play-btn:hover { transform: translateY(-2px); }
-  .play-btn svg { width: 28px; height: 28px; flex: none; }
-  .play-btn small { display: block; font-size: 11px; letter-spacing: .6px; text-transform: uppercase; opacity: .85; line-height: 1.2; }
-  .play-btn strong { display: block; font-size: 20px; line-height: 1.2; font-weight: 700; }
   .ghost-btn {
-    color: #fff; text-decoration: none; font-weight: 800; padding: 14px 20px; border-radius: 14px;
-    border: 2px solid rgba(255,255,255,.35);
+    color: #fff; text-decoration: none; font-weight: 800; padding: 12px 20px; border-radius: 14px;
+    border: 2px solid rgba(255,255,255,.35); display: inline-flex; align-items: center; gap: 8px;
   }
   .ghost-btn:hover { border-color: var(--gold); color: var(--gold); }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
-  .chips span { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.9); background: rgba(43,27,90,.35); padding: 5px 12px; border-radius: 999px; }
+  .trust { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 26px; font-weight: 700; font-size: 15px; color: rgba(255,255,255,.9); }
+  .trust span { display: inline-flex; align-items: center; gap: 6px; }
+  .trust b { color: var(--gold); }
 
+  .hero-visual { position: relative; display: grid; place-items: center; min-height: 560px; }
   .phone {
-    position: relative; z-index: 2; justify-self: center; width: min(320px, 80vw);
-    border-radius: 34px; padding: 10px; background: #fff;
-    box-shadow: 0 30px 60px rgba(20, 8, 50, .45);
-    margin-bottom: -40px;
+    position: relative; z-index: 3; width: 270px; aspect-ratio: 9 / 18.5;
+    border-radius: 42px; padding: 11px; background: #140C30;
+    box-shadow: 0 0 0 2px rgba(255,255,255,.12), 0 40px 80px rgba(10, 4, 35, .55);
+    transform: rotate(4deg);
   }
-  .phone img { border-radius: 26px; }
+  .phone::before { /* camera notch */
+    content: ""; position: absolute; top: 18px; left: 50%; width: 70px; height: 18px; margin-left: -35px;
+    background: #140C30; border-radius: 0 0 12px 12px; z-index: 2;
+  }
+  .phone .screen { width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: #6c6fb3; }
+  .phone .screen img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+  .float-card {
+    position: absolute; z-index: 4; background: #fff; color: var(--ink); border-radius: 16px;
+    padding: 10px 14px; box-shadow: 0 14px 30px rgba(10,4,35,.35); font-weight: 800; font-size: 14px;
+    display: flex; align-items: center; gap: 10px; white-space: nowrap;
+  }
+  .float-card .big { font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 22px; color: var(--pink); line-height: 1; }
+  .float-card small { display: block; color: var(--muted); font-weight: 700; font-size: 12px; }
+  .fc-combo { top: 14%; left: 2%; transform: rotate(-6deg); }
+  .fc-kites { bottom: 20%; right: 0; transform: rotate(5deg); }
+  .fc-cut {
+    top: 6%; right: 8%; background: var(--pink); color: #fff; font-family: "Lilita One", sans-serif; font-weight: 400;
+    font-size: 24px; border: 3px solid var(--deep); transform: rotate(10deg); padding: 6px 16px;
+  }
+  .kite-deco { position: absolute; z-index: 2; width: 90px; filter: drop-shadow(0 10px 12px rgba(10,4,35,.35)); }
+  .kd1 { left: 4%; bottom: 18%; width: 78px; }
+  .kd2 { right: 4%; top: 32%; width: 64px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .kd1 { animation: bob 5s ease-in-out infinite; }
+    .kd2 { animation: bob 6s ease-in-out infinite reverse; }
+    .float-card { animation: drift 7s ease-in-out infinite; }
+    .fc-kites { animation-delay: -3s; }
+    @keyframes bob { 0%,100% { translate: 0 0; rotate: -4deg; } 50% { translate: 6px -14px; rotate: 5deg; } }
+    @keyframes drift { 0%,100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+  }
 
   /* ---------- stats ---------- */
-  .stats { background: var(--night); color: #fff; padding: 64px 0 34px; }
+  .stats { background: var(--deep); color: #fff; padding: 34px 0; }
   .stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
   .stat b { display: block; font-family: "Lilita One", sans-serif; font-size: 40px; color: var(--gold); line-height: 1.1; font-weight: 400; }
   .stat span { color: rgba(255,255,255,.75); font-weight: 700; font-size: 15px; }
 
   /* ---------- sections ---------- */
   section { padding: 84px 0; }
-  .section-head { text-align: center; max-width: 640px; margin: 0 auto 44px; }
-  .section-head h2 { font-family: "Lilita One", sans-serif; font-weight: 400; font-size: clamp(34px, 5vw, 46px); margin: 0 0 10px; color: var(--night); line-height: 1.1; }
+  .section-head { text-align: center; max-width: 680px; margin: 0 auto 44px; }
+  .kicker { display: inline-block; font-weight: 800; font-size: 13px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--pink); margin-bottom: 8px; }
+  .section-head h2, .sub-head h3 { font-family: "Lilita One", sans-serif; font-weight: 400; color: var(--night); line-height: 1.1; }
+  .section-head h2 { font-size: clamp(34px, 5vw, 48px); margin: 0 0 10px; }
   .section-head p { margin: 0; color: var(--muted); font-size: 18px; }
+  .sub-head { margin: 64px 0 24px; }
+  .sub-head h3 { font-size: clamp(26px, 3.6vw, 34px); margin: 0 0 6px; }
+  .sub-head p { margin: 0; color: var(--muted); font-size: 17px; max-width: 640px; }
 
-  /* how to play */
-  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 22px; position: relative; }
-  .step .num {
-    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
-    background: var(--pink); color: #fff; font-family: "Lilita One", sans-serif; font-size: 22px; margin-bottom: 14px;
+  /* how to play – controls */
+  .split { display: grid; grid-template-columns: 1fr 300px; gap: 48px; align-items: center; }
+  .split.flip { grid-template-columns: 300px 1fr; }
+  .mini-phone {
+    width: 250px; margin: 0 auto; aspect-ratio: 9 / 18.5; border-radius: 36px; padding: 9px; background: #140C30;
+    box-shadow: 0 24px 50px rgba(30, 19, 66, .28);
   }
-  .step:nth-child(2) .num { background: #F7931E; }
-  .step:nth-child(3) .num { background: #1FA79A; }
+  .mini-phone .screen { width: 100%; height: 100%; border-radius: 28px; overflow: hidden; }
+  .mini-phone img { width: 100%; height: 100%; object-fit: cover; }
+  .steps { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+  .step .num {
+    width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+    background: var(--pink); color: #fff; font-family: "Lilita One", sans-serif; font-size: 21px; margin-bottom: 12px;
+  }
+  .step:nth-child(2) .num { background: var(--orange); }
+  .step:nth-child(3) .num { background: var(--teal); }
   .step:nth-child(4) .num { background: var(--night-2); }
-  .step h3 { margin: 0 0 6px; font-size: 19px; font-weight: 800; }
+  .step h4 { margin: 0 0 4px; font-size: 18px; font-weight: 800; }
   .step p { margin: 0; color: var(--muted); }
 
+  .fight-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .fight-list li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; }
+  .fight-list .ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; background: var(--sand); }
+  .fight-list strong { display: block; font-size: 17px; }
+  .fight-list span { color: var(--muted); }
+
+  .hazards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .hazard { border-radius: var(--radius); padding: 24px; color: #fff; position: relative; overflow: hidden; }
+  .hazard h4 { margin: 8px 0 6px; font-size: 19px; font-weight: 800; }
+  .hazard p { margin: 0; color: rgba(255,255,255,.88); }
+  .hazard .ico { font-size: 34px; line-height: 1; }
+  .hz1 { background: linear-gradient(150deg, #FF3D7F, #B8246A); }
+  .hz2 { background: linear-gradient(150deg, #3A2470, #1E1342); }
+  .hz3 { background: linear-gradient(150deg, #F7931E, #C4580E); }
+  .note {
+    margin-top: 18px; background: #E8F7FF; border: 1px solid #BDE6FA; color: #1B4F6E; border-radius: 14px; padding: 14px 18px; font-weight: 700;
+  }
+
+  .score-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px; }
+  .points { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 22px; }
+  .points table { width: 100%; border-collapse: collapse; }
+  .points td { padding: 14px 0; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .points tr:last-child td { border-bottom: 0; }
+  .points td:last-child { text-align: right; font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 22px; color: var(--night); }
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; transform: rotate(45deg); margin-right: 10px; vertical-align: 1px; }
+  .combo-box { background: var(--night); color: #fff; border-radius: var(--radius); padding: 26px; }
+  .combo-box h4 { margin: 0 0 8px; font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 26px; color: var(--gold); }
+  .combo-box p { margin: 0 0 14px; color: rgba(255,255,255,.85); }
+  .combo-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .combo-row span { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); border-radius: 10px; padding: 6px 10px; font-weight: 800; }
+  .combo-row span b { color: var(--gold); }
+
+  .powerups { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .power { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; text-align: center; }
+  .power .orb { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 12px; display: grid; place-items: center; font-size: 30px; border: 3px solid var(--deep); }
+  .power h4 { margin: 0 0 4px; font-size: 18px; font-weight: 800; }
+  .power p { margin: 0 0 10px; color: var(--muted); font-size: 15px; }
+  .power .dur { display: inline-block; font-weight: 800; font-size: 13px; background: var(--sand); padding: 4px 10px; border-radius: 999px; }
+
+  .tips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; counter-reset: tip; }
+  .tip { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 18px 18px 64px; position: relative; }
+  .tip::before {
+    counter-increment: tip; content: counter(tip); position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; border-radius: 50%;
+    background: var(--gold); color: var(--deep); font-family: "Lilita One", sans-serif; display: grid; place-items: center; font-size: 17px;
+  }
+  .tip strong { display: block; }
+  .tip span { color: var(--muted); }
+
   /* features */
-  .features-bg { background: #FFEBCB; }
+  .features-bg { background: var(--sand); }
   .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .feature { background: var(--card); border-radius: var(--radius); padding: 26px; border: 1px solid var(--line); }
   .feature .ico { font-size: 30px; line-height: 1; margin-bottom: 12px; }
   .feature h3 { margin: 0 0 6px; font-size: 19px; font-weight: 800; }
   .feature p { margin: 0; color: var(--muted); }
 
+  /* kites */
+  .rarities { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .rarity { background: var(--card); border-radius: var(--radius); padding: 22px; border: 1px solid var(--line); border-top: 6px solid var(--c); }
+  .rarity .tag { display: inline-block; font-weight: 800; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #fff; background: var(--c); padding: 3px 10px; border-radius: 999px; }
+  .rarity h4 { margin: 10px 0 2px; font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 26px; }
+  .rarity .count { color: var(--muted); font-weight: 700; font-size: 14px; margin-bottom: 10px; }
+  .rarity ul { margin: 0; padding: 0; list-style: none; }
+  .rarity li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: 15px; }
+  .rarity li:last-child { border-bottom: 0; }
+  .rarity li span:last-child { font-weight: 800; color: var(--night); white-space: nowrap; }
+  .extras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 22px; }
+  .extra { background: var(--night); color: #fff; border-radius: var(--radius); padding: 22px; }
+  .extra h4 { margin: 0 0 6px; font-size: 18px; font-weight: 800; color: var(--gold); }
+  .extra p { margin: 0; color: rgba(255,255,255,.85); }
+
   /* screenshots */
-  .shots-bg { background: linear-gradient(180deg, var(--night) 0%, var(--plum) 100%); color: #fff; }
+  .shots-bg { background: linear-gradient(180deg, var(--deep) 0%, var(--plum) 100%); color: #fff; }
   .shots-bg .section-head h2 { color: #fff; }
   .shots-bg .section-head p { color: rgba(255,255,255,.8); }
+  .carousel { position: relative; }
   .shots {
-    display: grid; grid-auto-flow: column; grid-auto-columns: minmax(200px, 1fr); gap: 18px;
-    overflow-x: auto; padding: 4px 4px 18px; scroll-snap-type: x mandatory;
+    display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    padding: 6px 4px 20px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.3) transparent;
   }
-  .shots img { border-radius: 18px; scroll-snap-align: start; box-shadow: 0 14px 30px rgba(10, 4, 30, .35); }
+  .shots img {
+    flex: none; height: clamp(340px, 46vw, 440px); width: auto; aspect-ratio: 9 / 16;
+    border-radius: 18px; scroll-snap-align: start; box-shadow: 0 14px 30px rgba(10, 4, 30, .35);
+  }
   .shots::-webkit-scrollbar { height: 8px; }
   .shots::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 8px; }
+  .car-btn {
+    position: absolute; top: 45%; transform: translateY(-50%); width: 46px; height: 46px; border-radius: 50%;
+    border: 0; background: #fff; color: var(--night); font-size: 22px; font-weight: 800; cursor: pointer;
+    box-shadow: 0 8px 20px rgba(10,4,30,.35); display: grid; place-items: center;
+  }
+  .car-btn.prev { left: -12px; } .car-btn.next { right: -12px; }
+  .car-btn:hover { background: var(--gold); }
 
   /* faq */
   .faq { max-width: 780px; margin: 0 auto; }
@@ -184,15 +312,25 @@
   .faq summary::-webkit-details-marker { display: none; }
   .faq summary::after { content: "+"; position: absolute; right: 0; top: 13px; font-size: 26px; color: var(--pink); font-weight: 700; }
   .faq details[open] summary::after { content: "–"; }
-  .faq details p, .faq details ol, .faq details ul { margin: 0 0 18px; color: var(--muted); }
+  .faq details p, .faq details ol { margin: 0 0 18px; color: var(--muted); }
   .faq details li { margin-bottom: 4px; }
+
+  /* download band */
+  .download {
+    background: linear-gradient(120deg, var(--pink) 0%, #C2307A 100%); color: #fff; border-radius: 28px;
+    padding: 40px; display: grid; grid-template-columns: auto 1fr auto; gap: 28px; align-items: center;
+  }
+  .download img.app-icon { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 10px 24px rgba(30,19,66,.35); }
+  .download h2 { margin: 0 0 4px; font-family: "Lilita One", sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 38px); line-height: 1.1; }
+  .download p { margin: 0; color: rgba(255,255,255,.9); }
+  .download .soon { top: -14px; }
 
   /* safety + support */
   .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .panel { border-radius: var(--radius); padding: 30px; }
   .panel h3 { font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 28px; margin: 0 0 10px; line-height: 1.15; }
   .panel p { margin: 0 0 12px; }
-  .panel.safety { background: #FFF; border: 2px dashed #F7931E; }
+  .panel.safety { background: #FFF; border: 2px dashed var(--orange); }
   .panel.support { background: var(--night); color: #fff; }
   .panel.support h3 { color: var(--gold); }
   .panel.support a.mail {
@@ -201,32 +339,45 @@
   }
   .panel.support p { color: rgba(255,255,255,.85); }
 
-  /* footer */
-  footer { background: #1E1342; color: rgba(255,255,255,.7); padding: 40px 0; font-size: 15px; }
+  footer { background: var(--deep); color: rgba(255,255,255,.7); padding: 40px 0; font-size: 15px; }
   footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px; }
   footer nav { display: flex; flex-wrap: wrap; gap: 20px; }
   footer a { color: rgba(255,255,255,.85); text-decoration: none; font-weight: 700; }
   footer a:hover { color: var(--gold); }
 
   /* ---------- responsive ---------- */
+  @media (max-width: 980px) {
+    .powerups, .rarities { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 920px) {
-    .hero-grid { grid-template-columns: 1fr; text-align: center; }
-    .hero-copy { padding-bottom: 20px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero-grid { grid-template-columns: 1fr; text-align: center; min-height: 0; padding-bottom: 120px; gap: 10px; }
     .hero p.lead { margin-left: auto; margin-right: auto; }
-    .cta-row, .chips { justify-content: center; }
-    .phone { margin-bottom: -40px; }
-    .steps { grid-template-columns: repeat(2, 1fr); }
+    .cta-row, .trust { justify-content: center; }
+    .hero-visual { min-height: 520px; }
+    .split, .split.flip { grid-template-columns: 1fr; gap: 28px; }
+    .split.flip .mini-phone { order: 2; }
     .features { grid-template-columns: repeat(2, 1fr); }
-    .duo { grid-template-columns: 1fr; }
+    .score-grid, .duo { grid-template-columns: 1fr; }
+    .hazards, .extras { grid-template-columns: 1fr; }
+    .download { grid-template-columns: 1fr; text-align: center; justify-items: center; }
   }
   @media (max-width: 640px) {
-    .nav-links { display: none; }
     .wrap { padding: 0 16px; }
-    .hero { padding-top: 48px; }
-    .stats .wrap { grid-template-columns: repeat(2, 1fr); row-gap: 26px; }
-    .steps, .features { grid-template-columns: 1fr; }
+    .hero { padding-top: 40px; }
+    .hero-visual { min-height: 470px; }
+    .phone { width: 220px; }
+    .fc-combo { left: 0; top: 8%; }
+    .fc-kites { right: 0; bottom: 14%; }
+    .fc-cut { right: 2%; top: 2%; font-size: 20px; }
+    .kite-deco { display: none; }
+    .stats .wrap { grid-template-columns: repeat(2, 1fr); row-gap: 22px; }
+    .steps, .features, .tips, .rarities { grid-template-columns: 1fr; }
+    .powerups { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .power { padding: 16px 12px; }
     section { padding: 64px 0; }
-    .shots { grid-auto-columns: 62%; }
+    .car-btn { display: none; }
+    .download { padding: 30px 22px; }
     footer .wrap { flex-direction: column; text-align: center; }
     footer nav { justify-content: center; }
   }
@@ -240,9 +391,10 @@
     <nav class="nav-links" aria-label="Main">
       <a href="#how">How to play</a>
       <a href="#features">Features</a>
+      <a href="#kites">Kites</a>
       <a href="#screenshots">Screenshots</a>
       <a href="#faq">FAQ</a>
-      <a href="#support">Support</a>
+      <a class="nav-cta" href="#download">Download</a>
     </nav>
   </div>
 </header>
@@ -254,29 +406,41 @@
     <div class="sun"></div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">🪁 Free kite fighting game</span>
+        <span class="eyebrow">🪁 Free kite fighting game for Android</span>
         <h1 class="display">
           <span class="t1">PATANG</span>
           <span class="t2">CLASH</span>
         </h1>
         <span class="bokata">BO KATA!</span>
-        <p class="lead">Feel the rooftop thrill of kite season. Fly your patang over the city skyline, cross strings with rival kites and pull your manja to cut them down – all with <strong>one finger</strong>.</p>
+        <p class="lead">Feel the rooftop thrill of kite season. Fly your patang over the city, cross strings with rival kites and pull your manja to cut them down – all with <strong>one finger</strong>.</p>
         <div class="cta-row">
-          <a class="play-btn" href="https://play.google.com/store/apps/details?id=com.patangclash.patang_clash" aria-label="Patang Clash on Google Play (coming soon)">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 1.8 13.3 12l-9.7 10.2c-.4-.2-.6-.7-.6-1.2V3c0-.5.2-1 .6-1.2Z"/><path fill="#FBBC04" d="m16.6 15.3-3.3-3.3 3.3-3.3 3.8 2.2c1.1.6 1.1 1.7 0 2.3l-3.8 2.1Z"/><path fill="#EA4335" d="M16.6 15.3 13.3 12l-9.7 10.2c.4.3 1 .3 1.6-.1l11.4-6.8Z"/><path fill="#4285F4" d="M16.6 8.7 5.2 1.9c-.6-.4-1.2-.4-1.6-.1L13.3 12l3.3-3.3Z"/></svg>
-            <span><small>Coming soon on</small><strong>Google Play</strong></span>
+          <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.patangclash.patang_clash" aria-label="Get Patang Clash on Google Play (coming soon)">
+            <img src="web/google-play-badge.png" alt="Get it on Google Play" width="646" height="250">
+            <span class="soon">Coming soon</span>
           </a>
-          <a class="ghost-btn" href="#how">How to play</a>
+          <a class="ghost-btn" href="#how">▶ How to play</a>
         </div>
-        <div class="chips">
-          <span>📴 Plays offline</span>
-          <span>👆 One-finger controls</span>
-          <span>⚡ Quick rounds</span>
+        <div class="trust">
+          <span>✅ <b>Free</b> to play</span>
+          <span>📴 Works <b>offline</b></span>
+          <span>🙅 <b>No sign-up</b></span>
         </div>
       </div>
-      <div class="phone">
-        <img src="web/01_fight.jpg" alt="Patang Clash gameplay: two kites fighting over a city skyline at sunset" width="540" height="1080">
+
+      <div class="hero-visual" aria-hidden="true">
+        <!-- decorative kites -->
+        <svg class="kite-deco kd1" viewBox="0 0 100 150"><path d="M50 4 92 52 50 108 8 52Z" fill="#1FA79A" stroke="#1E1342" stroke-width="5" stroke-linejoin="round"/><path d="M50 4v104M8 52h84" stroke="#1E1342" stroke-width="3"/><circle cx="50" cy="52" r="11" fill="#FFC93C" stroke="#1E1342" stroke-width="3"/><path d="M50 108l-9 16h18z" fill="#fff" stroke="#1E1342" stroke-width="3" stroke-linejoin="round"/><path d="M50 124c-6 8 6 14 0 24" stroke="#FFF4E0" stroke-width="3" fill="none"/></svg>
+        <svg class="kite-deco kd2" viewBox="0 0 100 150"><path d="M50 4 92 52 50 108 8 52Z" fill="#A55BE0" stroke="#1E1342" stroke-width="5" stroke-linejoin="round"/><path d="M50 4v104M8 52h84" stroke="#1E1342" stroke-width="3"/><circle cx="50" cy="52" r="11" fill="#FFF4E0" stroke="#1E1342" stroke-width="3"/><path d="M50 108l-9 16h18z" fill="#FFC93C" stroke="#1E1342" stroke-width="3" stroke-linejoin="round"/></svg>
+
+        <div class="phone"><div class="screen"><img src="web/game_fight.jpg" alt="" width="600" height="1251"></div></div>
+
+        <div class="float-card fc-combo"><span class="big">x5</span><span>COMBO<small>+500 per cut</small></span></div>
+        <div class="float-card fc-kites"><span class="big">17</span><span>KITES<small>to collect</small></span></div>
+        <div class="float-card fc-cut">BO KATA!</div>
       </div>
+    </div>
+    <div class="skyline" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#1E1342" d="M0 120V70h60v-20h50v30h40V40h22l10-14 10 14h20v40h70V55h60v25h30V30h18a22 22 0 0 1 44 0h18v50h60V60h40V45h70v35h50V50h20V36h20v14h30v30h60V58h50v22h40V40h18l12-18 12 18h18v40h60V62h50v18h40V48h60v32h50V56h70v24h50V44h40v36h70V60h40v60Z"/></svg>
     </div>
   </div>
 
@@ -285,8 +449,8 @@
     <div class="wrap">
       <div class="stat"><b>17</b><span>Kites to unlock</span></div>
       <div class="stat"><b>4</b><span>Power-ups</span></div>
-      <div class="stat"><b>100%</b><span>Free to play</span></div>
-      <div class="stat"><b>0</b><span>Internet needed</span></div>
+      <div class="stat"><b>5</b><span>Upgrades</span></div>
+      <div class="stat"><b>12</b><span>Achievements</span></div>
     </div>
   </div>
 
@@ -294,14 +458,104 @@
   <section id="how">
     <div class="wrap">
       <div class="section-head">
+        <span class="kicker">How to play</span>
         <h2>Easy to learn, hard to master</h2>
-        <p>Every round takes a minute. Ruling the sky takes a little longer.</p>
+        <p>Every round takes a minute or two. Ruling the sky takes a little longer.</p>
       </div>
-      <div class="steps">
-        <div class="step"><div class="num">1</div><h3>Hold to rise</h3><p>Hold your finger down to lift your kite. Let go and it drops.</p></div>
-        <div class="step"><div class="num">2</div><h3>Slide to steer</h3><p>Move your finger left and right to guide your patang across the sky.</p></div>
-        <div class="step"><div class="num">3</div><h3>Cross &amp; cut</h3><p>When strings cross, a fight begins. Hold to pull your manja and win it.</p></div>
-        <div class="step"><div class="num">4</div><h3>Stay sharp</h3><p>Dodge birds and keep clear of the electric wires below.</p></div>
+
+      <!-- controls -->
+      <div class="split">
+        <div>
+          <div class="sub-head" style="margin-top:0">
+            <h3>One finger is all you need</h3>
+            <p>No buttons, no joystick. Touch anywhere on the screen to fly.</p>
+          </div>
+          <div class="steps">
+            <div class="step"><div class="num">1</div><h4>Hold to rise</h4><p>Keep your finger on the screen and your kite climbs into the wind.</p></div>
+            <div class="step"><div class="num">2</div><h4>Release to drop</h4><p>Let go and your kite dips down. Mix short holds to stay at the height you want.</p></div>
+            <div class="step"><div class="num">3</div><h4>Slide to steer</h4><p>Move your finger left or right to guide your patang across the sky.</p></div>
+            <div class="step"><div class="num">4</div><h4>Grab coins</h4><p>Fly through coin trails and power-ups to fill your pockets.</p></div>
+          </div>
+        </div>
+        <div class="mini-phone"><div class="screen"><img src="web/game_play.jpg" alt="Gameplay: hold to rise, release to drop" loading="lazy" width="600" height="1251"></div></div>
+      </div>
+
+      <!-- string fight -->
+      <div class="split flip" style="margin-top:72px">
+        <div class="mini-phone"><div class="screen"><img src="web/game_fight.jpg" alt="Two kites in a string fight with a tug bar" loading="lazy" width="600" height="1251"></div></div>
+        <div>
+          <div class="sub-head" style="margin-top:0">
+            <h3>Win the string fight ✂️</h3>
+            <p>This is the heart of Patang Clash – just like real rooftop pench on Basant.</p>
+          </div>
+          <ul class="fight-list">
+            <li><div class="ico">🪢</div><div><strong>Cross strings</strong><span>Fly your manja across a rival kite's string and a fight begins.</span></div></li>
+            <li><div class="ico">💪</div><div><strong>Hold to pull</strong><span>A tug bar appears. Keep holding to pull your string and fill your side to win. Let go and the rival pulls back!</span></div></li>
+            <li><div class="ico">🎉</div><div><strong>Bo Kata!</strong><span>Their kite is cut loose and drifts away. You earn points and the combo starts.</span></div></li>
+            <li><div class="ico">⚔️</div><div><strong>Get stronger</strong><span>Upgrade <b>Sharp Manja</b> to win fights faster, or grab <b>Glass Manja</b> for instant cuts.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- hazards -->
+      <div class="sub-head">
+        <h3>What can bring you down</h3>
+        <p>Your flight ends if any of these get you – so stay sharp!</p>
+      </div>
+      <div class="hazards">
+        <div class="hazard hz1"><div class="ico">✂️</div><h4>Losing a fight</h4><p>If a rival wins the tug-of-war, <em>your</em> string gets cut. Boss kites pull hard!</p></div>
+        <div class="hazard hz2"><div class="ico">🐦</div><h4>Birds</h4><p>Flocks fly across the sky. Watch their path and steer around them.</p></div>
+        <div class="hazard hz3"><div class="ico">⚡</div><h4>Electric wires</h4><p>The wires above the rooftops are deadly. Don't let your kite fly too low.</p></div>
+      </div>
+      <div class="note">🛡️ Tip: while a <b>Shield</b> is active, birds and wires can't hurt you and rivals can't cut your string.</div>
+
+      <!-- scoring -->
+      <div class="sub-head">
+        <h3>Score points &amp; build combos</h3>
+        <p>Bigger kites are worth more. Cut them back-to-back to multiply your score.</p>
+      </div>
+      <div class="score-grid">
+        <div class="points">
+          <table>
+            <tr><td><span class="dot" style="background:var(--sky)"></span>Rival kite</td><td>100</td></tr>
+            <tr><td><span class="dot" style="background:var(--epic)"></span>Fighter kite</td><td>150</td></tr>
+            <tr><td><span class="dot" style="background:var(--legend)"></span>Golden Boss kite</td><td>500</td></tr>
+          </table>
+        </div>
+        <div class="combo-box">
+          <h4>Combo multiplier</h4>
+          <p>Cut another kite quickly after the last one and your combo grows. Every cut is multiplied by your combo.</p>
+          <div class="combo-row">
+            <span>x2 Boss = <b>1,000</b></span>
+            <span>x3 Boss = <b>1,500</b></span>
+            <span>x5 Boss = <b>2,500</b></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- power-ups -->
+      <div class="sub-head">
+        <h3>Power-ups ⚡</h3>
+        <p>Fly into a glowing power-up to activate it. Upgrade them in the shop to make them last even longer.</p>
+      </div>
+      <div class="powerups">
+        <div class="power"><div class="orb" style="background:var(--sky)">🛡️</div><h4>Shield</h4><p>Nothing can cut you or knock you down.</p><span class="dur">6s → 13.5s</span></div>
+        <div class="power"><div class="orb" style="background:var(--epic)">🧲</div><h4>Coin Magnet</h4><p>Pulls nearby coins straight to your kite.</p><span class="dur">7s → 14.5s</span></div>
+        <div class="power"><div class="orb" style="background:var(--gold)">💎</div><h4>Glass Manja</h4><p>Every string you cross is cut instantly.</p><span class="dur">5s → 11.25s</span></div>
+        <div class="power"><div class="orb" style="background:var(--orange)">💰</div><h4>2x Coins</h4><p>Every coin you collect counts double.</p><span class="dur">8s → 18s</span></div>
+      </div>
+
+      <!-- tips -->
+      <div class="sub-head">
+        <h3>Pro tips from the rooftop</h3>
+      </div>
+      <div class="tips">
+        <div class="tip"><strong>Stay in the middle of the sky.</strong><span>Up high you can see what's coming; down low the wires are waiting.</span></div>
+        <div class="tip"><strong>Pick your fights.</strong><span>Start with small kites to build a combo, then take on the golden Boss.</span></div>
+        <div class="tip"><strong>Save Glass Manja for Bosses.</strong><span>Instant cuts make the 500-point Boss kites easy prey.</span></div>
+        <div class="tip"><strong>Upgrade Sharp Manja first.</strong><span>Winning fights faster keeps your combo alive and your string safe.</span></div>
+        <div class="tip"><strong>Do your daily missions.</strong><span>They give hundreds of bonus coins every day for things you do anyway.</span></div>
+        <div class="tip"><strong>Come back every day.</strong><span>The daily reward grows each day of your streak – up to 600 coins on day 7.</span></div>
       </div>
     </div>
   </section>
@@ -310,16 +564,75 @@
   <section id="features" class="features-bg">
     <div class="wrap">
       <div class="section-head">
+        <span class="kicker">Features</span>
         <h2>Everything you love about kite season</h2>
         <p>Rooftop battles, colourful kites and that famous shout: Bo Kata!</p>
       </div>
       <div class="features">
         <div class="feature"><div class="ico">✂️</div><h3>Real string fights</h3><p>Cross strings with rival kites and win the pull to cut them loose.</p></div>
         <div class="feature"><div class="ico">🪁</div><h3>17 beautiful kites</h3><p>From the Lahori Classic to the legendary Galaxy kite – collect them all.</p></div>
-        <div class="feature"><div class="ico">⚡</div><h3>Power-ups</h3><p>Shield, Coin Magnet, Glass Manja for instant cuts and 2x Coins.</p></div>
-        <div class="feature"><div class="ico">👑</div><h3>Bosses &amp; combos</h3><p>Boss kites, fighter kites and flocks of birds. Cut back-to-back for huge combos.</p></div>
+        <div class="feature"><div class="ico">⚡</div><h3>4 power-ups</h3><p>Shield, Coin Magnet, Glass Manja for instant cuts and 2x Coins.</p></div>
+        <div class="feature"><div class="ico">👑</div><h3>Bosses &amp; combos</h3><p>Golden Boss kites, fighter kites and flocks of birds. Chain cuts for huge combos.</p></div>
         <div class="feature"><div class="ico">🌅</div><h3>A living sky</h3><p>Fly from afternoon to sunset to a starry night above the city.</p></div>
-        <div class="feature"><div class="ico">🎯</div><h3>Missions &amp; rewards</h3><p>Daily missions, achievements, daily rewards and upgrades to keep you flying.</p></div>
+        <div class="feature"><div class="ico">🎯</div><h3>Missions &amp; rewards</h3><p>Daily missions, 12 achievements, a 7-day reward streak and 5 upgrades.</p></div>
+        <div class="feature"><div class="ico">📴</div><h3>Play anywhere</h3><p>No internet needed. Perfect for the bus, a break or load-shedding.</p></div>
+        <div class="feature"><div class="ico">👆</div><h3>One-finger controls</h3><p>Play with one hand. Easy for anyone to pick up in seconds.</p></div>
+        <div class="feature"><div class="ico">🎵</div><h3>Original music</h3><p>Festive music and satisfying cut sounds with haptic feedback.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KITES -->
+  <section id="kites">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Kite collection</span>
+        <h2>17 kites, 4 rarities</h2>
+        <p>Earn coins by flying, then unlock new kites in the shop. Some can even be unlocked for free by watching short videos.</p>
+      </div>
+      <div class="rarities">
+        <div class="rarity" style="--c:var(--common)">
+          <span class="tag">Common</span><h4>Starters</h4><div class="count">4 kites</div>
+          <ul>
+            <li><span>Lahori Classic</span><span>Free</span></li>
+            <li><span>Blue Sky</span><span>300</span></li>
+            <li><span>Mint Breeze</span><span>400</span></li>
+            <li><span>Rose Garden</span><span>600</span></li>
+          </ul>
+        </div>
+        <div class="rarity" style="--c:var(--rare)">
+          <span class="tag">Rare</span><h4>Fighters</h4><div class="count">4 kites</div>
+          <ul>
+            <li><span>Tiger Stripe</span><span>900</span></li>
+            <li><span>Crescent Night</span><span>1,200</span></li>
+            <li><span>Hero Kite</span><span>📺 3 videos</span></li>
+            <li><span>Arrow Rush</span><span>1,500</span></li>
+          </ul>
+        </div>
+        <div class="rarity" style="--c:var(--epic)">
+          <span class="tag">Epic</span><h4>Showstoppers</h4><div class="count">5 kites</div>
+          <ul>
+            <li><span>Sunburst</span><span>2,500</span></li>
+            <li><span>Chess Master</span><span>3,000</span></li>
+            <li><span>Evil Eye</span><span>📺 5 videos</span></li>
+            <li><span>Thunder Bolt</span><span>4,000</span></li>
+            <li><span>Lava Flame</span><span>5,000</span></li>
+          </ul>
+        </div>
+        <div class="rarity" style="--c:var(--legend)">
+          <span class="tag">Legendary</span><h4>Sky Kings</h4><div class="count">4 kites</div>
+          <ul>
+            <li><span>Royal Peacock</span><span>8,000</span></li>
+            <li><span>Galaxy</span><span>12,000</span></li>
+            <li><span>Golden Eagle</span><span>15,000</span></li>
+            <li><span>Sultan of Skies</span><span>Starter Pack</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="extras">
+        <div class="extra"><h4>⬆️ 5 upgrades</h4><p>Sharp Manja, Shield, Coin Magnet, Glass Manja and Coin Doubler – each with 5 levels.</p></div>
+        <div class="extra"><h4>🎯 Daily missions</h4><p>"Cut 25 kites", "Reach a x5 combo", "Cut a golden Boss" – up to 300 coins each.</p></div>
+        <div class="extra"><h4>🏆 12 achievements</h4><p>From your first "Bo Kata!" all the way to <em>Legend of Basant</em> at 20,000 points.</p></div>
       </div>
     </div>
   </section>
@@ -328,16 +641,21 @@
   <section id="screenshots" class="shots-bg">
     <div class="wrap">
       <div class="section-head">
+        <span class="kicker" style="color:var(--gold)">Screenshots</span>
         <h2>Take a look</h2>
         <p>Swipe through the game.</p>
       </div>
-      <div class="shots">
-        <img src="web/01_fight.jpg" alt="Cut rival kites" loading="lazy" width="540" height="1080">
-        <img src="web/02_home.jpg" alt="Home screen" loading="lazy" width="540" height="1080">
-        <img src="web/03_kites.jpg" alt="Kite collection" loading="lazy" width="540" height="1080">
-        <img src="web/04_play.jpg" alt="Gameplay" loading="lazy" width="540" height="1080">
-        <img src="web/05_missions.jpg" alt="Daily missions" loading="lazy" width="540" height="1080">
-        <img src="web/06_upgrades.jpg" alt="Upgrades" loading="lazy" width="540" height="1080">
+      <div class="carousel">
+        <div class="shots" id="shots">
+          <img src="web/shot_01_fight.jpg" alt="Cut rival kites" loading="lazy" width="480" height="853">
+          <img src="web/shot_04_play.jpg" alt="One-finger control" loading="lazy" width="480" height="853">
+          <img src="web/shot_02_home.jpg" alt="Home screen" loading="lazy" width="480" height="853">
+          <img src="web/shot_03_kites.jpg" alt="17 unique kites" loading="lazy" width="480" height="853">
+          <img src="web/shot_05_missions.jpg" alt="Daily missions" loading="lazy" width="480" height="853">
+          <img src="web/shot_06_upgrades.jpg" alt="Upgrades" loading="lazy" width="480" height="853">
+        </div>
+        <button class="car-btn prev" type="button" aria-label="Previous screenshots" data-dir="-1">‹</button>
+        <button class="car-btn next" type="button" aria-label="Next screenshots" data-dir="1">›</button>
       </div>
     </div>
   </section>
@@ -346,6 +664,7 @@
   <section id="faq">
     <div class="wrap">
       <div class="section-head">
+        <span class="kicker">FAQ</span>
         <h2>Questions &amp; answers</h2>
       </div>
       <div class="faq">
@@ -365,6 +684,10 @@
           <summary>I changed phones. How do I get my purchases back?</summary>
           <p>Sign in to the same Google account, open the Shop or Settings and tap <strong>Restore purchases</strong>. Remove Ads comes back automatically. Coins and game progress are saved on your device only, so they don't move to a new phone.</p>
         </details>
+        <details>
+          <summary>I paid for coins but didn't get them.</summary>
+          <p>Close the game completely and open it again – unfinished purchases are completed automatically when the game starts. If the coins still don't appear, e-mail us your Google Play order number (it starts with "GPA.") and we'll help.</p>
+        </details>
         <details id="delete-data">
           <summary>How do I delete my data?</summary>
           <p>Patang Clash has no accounts and no servers – your progress is stored only on your phone. To delete data:</p>
@@ -379,6 +702,23 @@
           <summary>Which devices are supported?</summary>
           <p>Patang Clash runs on Android phones and tablets. An iPhone version may follow later.</p>
         </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section id="download" style="padding-top:0">
+    <div class="wrap">
+      <div class="download">
+        <img class="app-icon" src="web/icon_192.png" alt="" width="96" height="96">
+        <div>
+          <h2>Ready to rule the sky?</h2>
+          <p>Patang Clash: Kite Fight is coming soon to Google Play – free for Android.</p>
+        </div>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.patangclash.patang_clash" aria-label="Get Patang Clash on Google Play (coming soon)">
+          <img src="web/google-play-badge.png" alt="Get it on Google Play" width="646" height="250">
+          <span class="soon">Coming soon</span>
+        </a>
       </div>
     </div>
   </section>
@@ -405,7 +745,6 @@
   <div class="wrap">
     <div>© 2026 Hassan Talha · Patang Clash</div>
     <nav aria-label="Legal">
-      <a href="gully-cricket/">Gully Cricket</a>
       <a href="privacy-policy.html">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
       <a href="#delete-data">Delete my data</a>
@@ -419,6 +758,13 @@
   if (location.hash === '#delete-data') {
     var d = document.getElementById('delete-data'); if (d) d.open = true;
   }
+  // Screenshot carousel arrows
+  var shots = document.getElementById('shots');
+  document.querySelectorAll('.car-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      shots.scrollBy({ left: Number(b.dataset.dir) * shots.clientWidth * 0.8, behavior: 'smooth' });
+    });
+  });
 </script>
 </body>
 </html>
