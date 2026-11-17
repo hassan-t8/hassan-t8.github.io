@@ -3,29 +3,421 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patang Clash</title>
+<title>Patang Clash: Kite Fight – One-finger kite fighting game</title>
+<meta name="description" content="Patang Clash is a fast, fun, one-finger kite fighting game. Fly your patang over the city, cross strings with rival kites and cut them down. Bo Kata! Free on Android.">
+<meta name="theme-color" content="#2B1B5A">
+<link rel="icon" type="image/png" href="web/icon_192.png">
+<link rel="apple-touch-icon" href="web/icon_192.png">
+<link rel="canonical" href="https://hassan-t8.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Patang Clash: Kite Fight">
+<meta property="og:description" content="Fly, fight &amp; cut rival kites with one finger! Bo Kata!">
+<meta property="og:url" content="https://hassan-t8.github.io/">
+<meta property="og:image" content="https://hassan-t8.github.io/web/og_image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; line-height: 1.6; color: #2B1B5A; background: #FFF4E0; }
-  h1 { color: #FF3D7F; margin-bottom: 4px; }
-  a { color: #FF3D7F; }
-  img.icon { width: 96px; height: 96px; border-radius: 22px; }
-  ul { padding-left: 20px; }
+  :root {
+    --night: #2B1B5A;
+    --night-2: #3A2470;
+    --plum: #6B2A7A;
+    --pink: #FF3D7F;
+    --pink-soft: #FF7AA8;
+    --gold: #FFC93C;
+    --cream: #FFF4E0;
+    --ink: #2B1B5A;
+    --muted: #6A5C8E;
+    --card: #FFFFFF;
+    --line: #EADBC0;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Nunito", -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--pink); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .display { font-family: "Lilita One", "Nunito", sans-serif; font-weight: 400; letter-spacing: .5px; }
+
+  /* ---------- nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(43, 27, 90, .92);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+  .brand img { width: 36px; height: 36px; border-radius: 9px; }
+  .brand span { font-family: "Lilita One", sans-serif; font-size: 22px; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a { color: rgba(255,255,255,.82); text-decoration: none; font-weight: 700; font-size: 15px; }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative; overflow: hidden; color: #fff;
+    background: linear-gradient(180deg, var(--night) 0%, var(--plum) 55%, #D93A7E 100%);
+    padding: 72px 0 0;
+  }
+  .hero::after { /* rooftop skyline */
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 70px;
+    background:
+      linear-gradient(var(--night), var(--night)) 0 30px / 9% 40px no-repeat,
+      linear-gradient(var(--night), var(--night)) 12% 10px / 10% 60px no-repeat,
+      linear-gradient(var(--night), var(--night)) 25% 38px / 12% 32px no-repeat,
+      linear-gradient(var(--night), var(--night)) 40% 22px / 8% 48px no-repeat,
+      linear-gradient(var(--night), var(--night)) 52% 44px / 14% 26px no-repeat,
+      linear-gradient(var(--night), var(--night)) 68% 16px / 7% 54px no-repeat,
+      linear-gradient(var(--night), var(--night)) 78% 34px / 11% 36px no-repeat,
+      linear-gradient(var(--night), var(--night)) 92% 20px / 10% 50px no-repeat,
+      linear-gradient(var(--night), var(--night)) 100% 40px / 6% 30px no-repeat;
+  }
+  .sun {
+    position: absolute; width: 380px; height: 380px; right: -60px; bottom: 40px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,190,120,.55) 0%, rgba(255,150,120,.18) 45%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: end; }
+  .hero-copy { padding-bottom: 110px; }
+  .eyebrow {
+    display: inline-block; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+    color: #fff; font-weight: 800; font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .hero h1 { margin: 0; line-height: .95; }
+  .hero h1 .t1 { display: block; font-size: clamp(56px, 9vw, 104px); color: var(--gold); text-shadow: 0 5px 0 var(--night); }
+  .hero h1 .t2 { display: block; font-size: clamp(44px, 7vw, 80px); color: #fff; text-shadow: 0 5px 0 var(--night); }
+  .bokata {
+    display: inline-block; margin: 22px 0 0; background: var(--pink); color: #fff;
+    font-family: "Lilita One", sans-serif; font-size: 22px; padding: 6px 22px; border-radius: 12px;
+    border: 3px solid var(--night); transform: rotate(-2deg);
+  }
+  .hero p.lead { font-size: 19px; max-width: 520px; color: rgba(255,255,255,.92); margin: 24px 0 28px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .play-btn {
+    display: inline-flex; align-items: center; gap: 12px; background: #000; color: #fff; text-decoration: none;
+    padding: 10px 20px 10px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,.35);
+    transition: transform .15s ease;
+  }
+  .play-btn:hover { transform: translateY(-2px); }
+  .play-btn svg { width: 28px; height: 28px; flex: none; }
+  .play-btn small { display: block; font-size: 11px; letter-spacing: .6px; text-transform: uppercase; opacity: .85; line-height: 1.2; }
+  .play-btn strong { display: block; font-size: 20px; line-height: 1.2; font-weight: 700; }
+  .ghost-btn {
+    color: #fff; text-decoration: none; font-weight: 800; padding: 14px 20px; border-radius: 14px;
+    border: 2px solid rgba(255,255,255,.35);
+  }
+  .ghost-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .chips span { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.9); background: rgba(43,27,90,.35); padding: 5px 12px; border-radius: 999px; }
+
+  .phone {
+    position: relative; z-index: 2; justify-self: center; width: min(320px, 80vw);
+    border-radius: 34px; padding: 10px; background: #fff;
+    box-shadow: 0 30px 60px rgba(20, 8, 50, .45);
+    margin-bottom: -40px;
+  }
+  .phone img { border-radius: 26px; }
+
+  /* ---------- stats ---------- */
+  .stats { background: var(--night); color: #fff; padding: 64px 0 34px; }
+  .stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
+  .stat b { display: block; font-family: "Lilita One", sans-serif; font-size: 40px; color: var(--gold); line-height: 1.1; font-weight: 400; }
+  .stat span { color: rgba(255,255,255,.75); font-weight: 700; font-size: 15px; }
+
+  /* ---------- sections ---------- */
+  section { padding: 84px 0; }
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 44px; }
+  .section-head h2 { font-family: "Lilita One", sans-serif; font-weight: 400; font-size: clamp(34px, 5vw, 46px); margin: 0 0 10px; color: var(--night); line-height: 1.1; }
+  .section-head p { margin: 0; color: var(--muted); font-size: 18px; }
+
+  /* how to play */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 22px; position: relative; }
+  .step .num {
+    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+    background: var(--pink); color: #fff; font-family: "Lilita One", sans-serif; font-size: 22px; margin-bottom: 14px;
+  }
+  .step:nth-child(2) .num { background: #F7931E; }
+  .step:nth-child(3) .num { background: #1FA79A; }
+  .step:nth-child(4) .num { background: var(--night-2); }
+  .step h3 { margin: 0 0 6px; font-size: 19px; font-weight: 800; }
+  .step p { margin: 0; color: var(--muted); }
+
+  /* features */
+  .features-bg { background: #FFEBCB; }
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feature { background: var(--card); border-radius: var(--radius); padding: 26px; border: 1px solid var(--line); }
+  .feature .ico { font-size: 30px; line-height: 1; margin-bottom: 12px; }
+  .feature h3 { margin: 0 0 6px; font-size: 19px; font-weight: 800; }
+  .feature p { margin: 0; color: var(--muted); }
+
+  /* screenshots */
+  .shots-bg { background: linear-gradient(180deg, var(--night) 0%, var(--plum) 100%); color: #fff; }
+  .shots-bg .section-head h2 { color: #fff; }
+  .shots-bg .section-head p { color: rgba(255,255,255,.8); }
+  .shots {
+    display: grid; grid-auto-flow: column; grid-auto-columns: minmax(200px, 1fr); gap: 18px;
+    overflow-x: auto; padding: 4px 4px 18px; scroll-snap-type: x mandatory;
+  }
+  .shots img { border-radius: 18px; scroll-snap-align: start; box-shadow: 0 14px 30px rgba(10, 4, 30, .35); }
+  .shots::-webkit-scrollbar { height: 8px; }
+  .shots::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 8px; }
+
+  /* faq */
+  .faq { max-width: 780px; margin: 0 auto; }
+  .faq details { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 0 22px; margin-bottom: 12px; }
+  .faq summary { cursor: pointer; list-style: none; font-weight: 800; font-size: 17px; padding: 18px 28px 18px 0; position: relative; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 0; top: 13px; font-size: 26px; color: var(--pink); font-weight: 700; }
+  .faq details[open] summary::after { content: "–"; }
+  .faq details p, .faq details ol, .faq details ul { margin: 0 0 18px; color: var(--muted); }
+  .faq details li { margin-bottom: 4px; }
+
+  /* safety + support */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .panel { border-radius: var(--radius); padding: 30px; }
+  .panel h3 { font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 28px; margin: 0 0 10px; line-height: 1.15; }
+  .panel p { margin: 0 0 12px; }
+  .panel.safety { background: #FFF; border: 2px dashed #F7931E; }
+  .panel.support { background: var(--night); color: #fff; }
+  .panel.support h3 { color: var(--gold); }
+  .panel.support a.mail {
+    display: inline-block; margin-top: 6px; background: var(--pink); color: #fff; text-decoration: none;
+    font-weight: 800; padding: 12px 20px; border-radius: 12px; word-break: break-all;
+  }
+  .panel.support p { color: rgba(255,255,255,.85); }
+
+  /* footer */
+  footer { background: #1E1342; color: rgba(255,255,255,.7); padding: 40px 0; font-size: 15px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px; }
+  footer nav { display: flex; flex-wrap: wrap; gap: 20px; }
+  footer a { color: rgba(255,255,255,.85); text-decoration: none; font-weight: 700; }
+  footer a:hover { color: var(--gold); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 920px) {
+    .hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .hero-copy { padding-bottom: 20px; }
+    .hero p.lead { margin-left: auto; margin-right: auto; }
+    .cta-row, .chips { justify-content: center; }
+    .phone { margin-bottom: -40px; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .features { grid-template-columns: repeat(2, 1fr); }
+    .duo { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .wrap { padding: 0 16px; }
+    .hero { padding-top: 48px; }
+    .stats .wrap { grid-template-columns: repeat(2, 1fr); row-gap: 26px; }
+    .steps, .features { grid-template-columns: 1fr; }
+    section { padding: 64px 0; }
+    .shots { grid-auto-columns: 62%; }
+    footer .wrap { flex-direction: column; text-align: center; }
+    footer nav { justify-content: center; }
+  }
 </style>
 </head>
 <body>
-<img class="icon" src="icon_512.png" alt="Patang Clash icon">
-<h1>Patang Clash</h1>
-<p>A one-finger kite fighting game. Fly your patang over the city, cross strings with rival kites and cut them down. Bo Kata!</p>
 
-<h2>Links</h2>
-<ul>
-  <li><a href="privacy-policy.html">Privacy Policy</a></li>
-  <li><a href="terms.html">Terms of Service</a></li>
-  <li><a href="https://play.google.com/store/apps/details?id=com.patangclash.patang_clash">Get it on Google Play</a></li>
-</ul>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="web/icon_192.png" alt="" width="36" height="36"><span>Patang Clash</span></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#how">How to play</a>
+      <a href="#features">Features</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#faq">FAQ</a>
+      <a href="#support">Support</a>
+    </nav>
+  </div>
+</header>
 
-<h2>Contact</h2>
-<p>Developer: Hassan Talha<br>
-E-mail: <a href="mailto:hassantalha807@gmail.com">hassantalha807@gmail.com</a></p>
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="sun"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">🪁 Free kite fighting game</span>
+        <h1 class="display">
+          <span class="t1">PATANG</span>
+          <span class="t2">CLASH</span>
+        </h1>
+        <span class="bokata">BO KATA!</span>
+        <p class="lead">Feel the rooftop thrill of kite season. Fly your patang over the city skyline, cross strings with rival kites and pull your manja to cut them down – all with <strong>one finger</strong>.</p>
+        <div class="cta-row">
+          <a class="play-btn" href="https://play.google.com/store/apps/details?id=com.patangclash.patang_clash" aria-label="Patang Clash on Google Play (coming soon)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 1.8 13.3 12l-9.7 10.2c-.4-.2-.6-.7-.6-1.2V3c0-.5.2-1 .6-1.2Z"/><path fill="#FBBC04" d="m16.6 15.3-3.3-3.3 3.3-3.3 3.8 2.2c1.1.6 1.1 1.7 0 2.3l-3.8 2.1Z"/><path fill="#EA4335" d="M16.6 15.3 13.3 12l-9.7 10.2c.4.3 1 .3 1.6-.1l11.4-6.8Z"/><path fill="#4285F4" d="M16.6 8.7 5.2 1.9c-.6-.4-1.2-.4-1.6-.1L13.3 12l3.3-3.3Z"/></svg>
+            <span><small>Coming soon on</small><strong>Google Play</strong></span>
+          </a>
+          <a class="ghost-btn" href="#how">How to play</a>
+        </div>
+        <div class="chips">
+          <span>📴 Plays offline</span>
+          <span>👆 One-finger controls</span>
+          <span>⚡ Quick rounds</span>
+        </div>
+      </div>
+      <div class="phone">
+        <img src="web/01_fight.jpg" alt="Patang Clash gameplay: two kites fighting over a city skyline at sunset" width="540" height="1080">
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="wrap">
+      <div class="stat"><b>17</b><span>Kites to unlock</span></div>
+      <div class="stat"><b>4</b><span>Power-ups</span></div>
+      <div class="stat"><b>100%</b><span>Free to play</span></div>
+      <div class="stat"><b>0</b><span>Internet needed</span></div>
+    </div>
+  </div>
+
+  <!-- HOW TO PLAY -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Easy to learn, hard to master</h2>
+        <p>Every round takes a minute. Ruling the sky takes a little longer.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><h3>Hold to rise</h3><p>Hold your finger down to lift your kite. Let go and it drops.</p></div>
+        <div class="step"><div class="num">2</div><h3>Slide to steer</h3><p>Move your finger left and right to guide your patang across the sky.</p></div>
+        <div class="step"><div class="num">3</div><h3>Cross &amp; cut</h3><p>When strings cross, a fight begins. Hold to pull your manja and win it.</p></div>
+        <div class="step"><div class="num">4</div><h3>Stay sharp</h3><p>Dodge birds and keep clear of the electric wires below.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="features-bg">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Everything you love about kite season</h2>
+        <p>Rooftop battles, colourful kites and that famous shout: Bo Kata!</p>
+      </div>
+      <div class="features">
+        <div class="feature"><div class="ico">✂️</div><h3>Real string fights</h3><p>Cross strings with rival kites and win the pull to cut them loose.</p></div>
+        <div class="feature"><div class="ico">🪁</div><h3>17 beautiful kites</h3><p>From the Lahori Classic to the legendary Galaxy kite – collect them all.</p></div>
+        <div class="feature"><div class="ico">⚡</div><h3>Power-ups</h3><p>Shield, Coin Magnet, Glass Manja for instant cuts and 2x Coins.</p></div>
+        <div class="feature"><div class="ico">👑</div><h3>Bosses &amp; combos</h3><p>Boss kites, fighter kites and flocks of birds. Cut back-to-back for huge combos.</p></div>
+        <div class="feature"><div class="ico">🌅</div><h3>A living sky</h3><p>Fly from afternoon to sunset to a starry night above the city.</p></div>
+        <div class="feature"><div class="ico">🎯</div><h3>Missions &amp; rewards</h3><p>Daily missions, achievements, daily rewards and upgrades to keep you flying.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREENSHOTS -->
+  <section id="screenshots" class="shots-bg">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Take a look</h2>
+        <p>Swipe through the game.</p>
+      </div>
+      <div class="shots">
+        <img src="web/01_fight.jpg" alt="Cut rival kites" loading="lazy" width="540" height="1080">
+        <img src="web/02_home.jpg" alt="Home screen" loading="lazy" width="540" height="1080">
+        <img src="web/03_kites.jpg" alt="Kite collection" loading="lazy" width="540" height="1080">
+        <img src="web/04_play.jpg" alt="Gameplay" loading="lazy" width="540" height="1080">
+        <img src="web/05_missions.jpg" alt="Daily missions" loading="lazy" width="540" height="1080">
+        <img src="web/06_upgrades.jpg" alt="Upgrades" loading="lazy" width="540" height="1080">
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Questions &amp; answers</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Is Patang Clash free?</summary>
+          <p>Yes. The game is free to download and play. It shows ads and offers optional in-app purchases such as coin packs and Remove Ads. You never need to pay to enjoy the game.</p>
+        </details>
+        <details>
+          <summary>Does it work without internet?</summary>
+          <p>Yes. You can play fully offline. An internet connection is only used for ads, purchases and anonymous crash reports.</p>
+        </details>
+        <details>
+          <summary>How do I remove ads?</summary>
+          <p>Open the Shop in the game and buy <strong>Remove Ads</strong> (or the Starter Pack, which includes it). Banner and pop-up ads stop; optional reward videos stay available if you want bonus coins.</p>
+        </details>
+        <details>
+          <summary>I changed phones. How do I get my purchases back?</summary>
+          <p>Sign in to the same Google account, open the Shop or Settings and tap <strong>Restore purchases</strong>. Remove Ads comes back automatically. Coins and game progress are saved on your device only, so they don't move to a new phone.</p>
+        </details>
+        <details id="delete-data">
+          <summary>How do I delete my data?</summary>
+          <p>Patang Clash has no accounts and no servers – your progress is stored only on your phone. To delete data:</p>
+          <ol>
+            <li><strong>Game progress:</strong> in the game, open Settings → <strong>Reset progress</strong>, or uninstall the game.</li>
+            <li><strong>Advertising ID:</strong> on Android, open Settings → Google → Ads and tap <strong>Delete advertising ID</strong>.</li>
+            <li><strong>Anything else:</strong> e-mail <a href="mailto:hassantalha807@gmail.com?subject=Patang%20Clash%20data%20deletion">hassantalha807@gmail.com</a> and we will help within 30 days.</li>
+          </ol>
+          <p>Anonymous analytics data from Google Firebase is deleted automatically after at most 14 months. See the <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+        </details>
+        <details>
+          <summary>Which devices are supported?</summary>
+          <p>Patang Clash runs on Android phones and tablets. An iPhone version may follow later.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAFETY + SUPPORT -->
+  <section id="support" style="padding-top:0">
+    <div class="wrap duo">
+      <div class="panel safety">
+        <h3>🪁 Fly safe in real life</h3>
+        <p>Patang Clash is a game. When you fly real kites, stay far away from electric wires and never use glass-coated or metal string (dangerous “manja”) – it hurts people and birds and is illegal in many places.</p>
+        <p style="margin:0">Keep the fighting in the game!</p>
+      </div>
+      <div class="panel support">
+        <h3>Need help?</h3>
+        <p>Found a bug, lost a purchase or have an idea for a new kite? We read every message.</p>
+        <a class="mail" href="mailto:hassantalha807@gmail.com?subject=Patang%20Clash%20support">hassantalha807@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Hassan Talha · Patang Clash</div>
+    <nav aria-label="Legal">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="#delete-data">Delete my data</a>
+      <a href="mailto:hassantalha807@gmail.com">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Open the FAQ item when someone lands on /#delete-data
+  if (location.hash === '#delete-data') {
+    var d = document.getElementById('delete-data'); if (d) d.open = true;
+  }
+</script>
 </body>
 </html>
